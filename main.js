@@ -1,12 +1,13 @@
 var express        = require('express');
-var session        = require('express-session');
+var session = require('express-session');
+require('dotenv').config();
 
 var axios = require('axios');
 
 // Define our constants, you will change these with your own
-const TWITCH_CLIENT_ID = 'o5n4px3kcc7kkk1mrwgkytsc4remm1';
-const TWITCH_SECRET    = 'azlczev2jc955epuyaycjpnmkl4ysg';
-const SESSION_SECRET   = 'ireallydontknowwhatthisis';
+const TWITCH_CLIENT_ID = process.env.CLIENT_ID;
+const TWITCH_SECRET    = process.env.CLIENT_SECRET;
+const SESSION_SECRET   = process.env.EXPRESS_SECRET;
 // Initialize Express and middlewares
 var app = express();
 app.use(session({secret: SESSION_SECRET, resave: false, saveUninitialized: false}));
@@ -32,7 +33,7 @@ const getChannelLiveStatus = (channelName, oauth) => new Promise((resolve, rejec
     .catch(err => resolve(false))
 })
 
-app.get('/', function (req, res) {
+app.get('/live-status', function (req, res) {
   const channel = req.query.channel;
   getOauthToken.then(oauth => {
     getChannelLiveStatus(channel, oauth).then(isLive => res.send({isLive}));
