@@ -41,5 +41,5 @@ app.get('/live-status', function (req, res) {
 });
 
 app.listen(8080, function () {
-  console.log('Twitch auth sample listening on port 3000!')
+  console.log('Twitch auth sample listening on port 8080!')
 });
